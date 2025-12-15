@@ -1,4 +1,4 @@
-package com.example.NLP;
+package com.app.NLP;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
