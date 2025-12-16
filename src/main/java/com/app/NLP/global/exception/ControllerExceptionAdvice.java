@@ -23,7 +23,7 @@ public class ControllerExceptionAdvice {
      * Custom Exception
      */
     @ExceptionHandler(CustomException.class)
-    public ResponseEntity<RspTemplate<Void>> handleCustomException(CustomException e) {
+    public ResponseEntity<RspTemplate> handleCustomException(CustomException e) {
         return ResponseEntity
                 .status(e.getHttpStatus())
                 .body(RspTemplate.error(e.getError(), e.getMessage()));
@@ -33,7 +33,7 @@ public class ControllerExceptionAdvice {
      * @Valid (RequestBody) Validation Error
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<RspTemplate<Void>> handleMethodArgumentNotValid(MethodArgumentNotValidException e) {
+    public ResponseEntity<RspTemplate> handleMethodArgumentNotValid(MethodArgumentNotValidException e) {
         FieldError fieldError = e.getBindingResult().getFieldError();
         String message = (fieldError != null)
                 ? fieldError.getDefaultMessage()
@@ -48,7 +48,7 @@ public class ControllerExceptionAdvice {
      * @Validated (RequestParam/PathVariable) Validation Error (Spring Boot 3)
      */
     @ExceptionHandler(HandlerMethodValidationException.class)
-    public ResponseEntity<RspTemplate<Void>> handleHandlerMethodValidation(HandlerMethodValidationException e) {
+    public ResponseEntity<RspTemplate> handleHandlerMethodValidation(HandlerMethodValidationException e) {
         return ResponseEntity
                 .status(Error.BAD_REQUEST_VALIDATION.getErrorCode())
                 .body(RspTemplate.error(Error.BAD_REQUEST_VALIDATION, Error.BAD_REQUEST_VALIDATION.getMessage()));
@@ -58,7 +58,7 @@ public class ControllerExceptionAdvice {
      * Wrong HTTP Method
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<RspTemplate<Void>> handleMethodNotSupported(HttpRequestMethodNotSupportedException e) {
+    public ResponseEntity<RspTemplate> handleMethodNotSupported(HttpRequestMethodNotSupportedException e) {
         return ResponseEntity
                 .status(Error.INVALID_REQUEST.getErrorCode())
                 .body(RspTemplate.error(Error.INVALID_REQUEST, Error.INVALID_REQUEST.getMessage()));
@@ -68,7 +68,7 @@ public class ControllerExceptionAdvice {
      * Unsupported Media Type
      */
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
-    public ResponseEntity<RspTemplate<Void>> handleMediaTypeNotSupported(HttpMediaTypeNotSupportedException e) {
+    public ResponseEntity<RspTemplate> handleMediaTypeNotSupported(HttpMediaTypeNotSupportedException e) {
         return ResponseEntity
                 .status(Error.INVALID_REQUEST.getErrorCode())
                 .body(RspTemplate.error(Error.INVALID_REQUEST, Error.INVALID_REQUEST.getMessage()));
@@ -78,7 +78,7 @@ public class ControllerExceptionAdvice {
      * Missing Request Param
      */
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    public ResponseEntity<RspTemplate<Void>> handleMissingParam(MissingServletRequestParameterException e) {
+    public ResponseEntity<RspTemplate> handleMissingParam(MissingServletRequestParameterException e) {
         return ResponseEntity
                 .status(Error.BAD_REQUEST_VALIDATION.getErrorCode())
                 .body(RspTemplate.error(Error.BAD_REQUEST_VALIDATION, Error.BAD_REQUEST_VALIDATION.getMessage()));
@@ -88,7 +88,7 @@ public class ControllerExceptionAdvice {
      * Missing Request Header
      */
     @ExceptionHandler(MissingRequestHeaderException.class)
-    public ResponseEntity<RspTemplate<Void>> handleMissingHeader(MissingRequestHeaderException e) {
+    public ResponseEntity<RspTemplate> handleMissingHeader(MissingRequestHeaderException e) {
         return ResponseEntity
                 .status(Error.BAD_REQUEST_VALIDATION.getErrorCode())
                 .body(RspTemplate.error(Error.BAD_REQUEST_VALIDATION, Error.BAD_REQUEST_VALIDATION.getMessage()));
@@ -98,7 +98,7 @@ public class ControllerExceptionAdvice {
      * JSON Parse / Body Missing / Type mismatch (RequestBody)
      */
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<RspTemplate<Void>> handleNotReadable(HttpMessageNotReadableException e) {
+    public ResponseEntity<RspTemplate> handleNotReadable(HttpMessageNotReadableException e) {
         return ResponseEntity
                 .status(Error.BAD_REQUEST_VALIDATION.getErrorCode())
                 .body(RspTemplate.error(Error.BAD_REQUEST_VALIDATION, Error.BAD_REQUEST_VALIDATION.getMessage()));
@@ -108,7 +108,7 @@ public class ControllerExceptionAdvice {
      * Fallback - 500
      */
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<RspTemplate<Void>> handleException(Exception e, HttpServletRequest request) {
+    public ResponseEntity<RspTemplate> handleException(Exception e, HttpServletRequest request) {
         log.error("UNHANDLED EXCEPTION: {} {}", request.getMethod(), request.getRequestURI(), e);
         return ResponseEntity
                 .status(Error.INTERNAL_SERVER_ERROR.getErrorCode())
